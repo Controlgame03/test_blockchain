@@ -3,6 +3,8 @@
 
 using namespace std;
 
+#define DEC 10
+
 class Block{
 private:
 
@@ -35,6 +37,9 @@ private:
     }
 
 public:
+    Block(){
+        initialize_components(0, 0, 0, 0);
+    }
 
     Block(long long _sender, long long _reciever, double _amount, long long _prev_block_hash){
         initialize_components(_sender, _reciever, _amount, _prev_block_hash);
@@ -92,6 +97,47 @@ public:
         return result;
     }
 
-   
+    static Block* stringToBlock(string str){
+        string sender_s, reciever_s, amount_s, transaction_time_s, nonce_s;
+        string prev_block_hash_s, current_block_hash_s;
+
+        int start_position = str.find("Block{");
+        start_position += ((new string("Block"))->size()) + 1;
+        int end_position = str.find(",", start_position);
+
+        sender_s = str.substr(start_position, end_position - start_position);
+        
+        start_position = end_position + 2;
+        end_position = str.find(",", start_position);
+
+        reciever_s = str.substr(start_position, end_position - start_position);
+
+        start_position = end_position + 2; // skip ", " (2 symbols)
+        end_position = str.find(",", start_position);
+
+        amount_s = str.substr(start_position, end_position - start_position);
+
+        start_position = end_position + 2;
+        end_position = str.find(",", start_position);
+
+        transaction_time_s = str.substr(start_position, end_position - start_position);
+
+        start_position = end_position + 2;
+        end_position = str.find(",", start_position);
+
+        nonce_s = str.substr(start_position, end_position - start_position);
+
+        start_position = end_position + 2;
+        end_position = str.find(",", start_position);
+
+        prev_block_hash_s = str.substr(start_position, end_position - start_position);
+
+        start_position = end_position + 2;
+        end_position = str.find("}", start_position);
+
+        current_block_hash_s = str.substr(start_position, end_position - start_position);
+
+        return (new Block(stoll(sender_s, nullptr, DEC), stoll(reciever_s, nullptr, DEC),stod(amount_s), stoll(nonce_s, nullptr, DEC), stoll(prev_block_hash_s, nullptr, DEC)));
+    }
 };
 
