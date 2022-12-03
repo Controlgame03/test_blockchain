@@ -1,3 +1,3 @@
 # test_blockchain
 
-Проект имитирующий блокчейн в маленьком маштабе
+Blockchain simulation project on a small scale
